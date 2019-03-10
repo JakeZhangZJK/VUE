@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>组件</title>
-  <script src="js/vue.js"></script>
+    <title>动态组件</title>
+  <script src="../vue基础知识点/js/vue.js"></script>
   <style>
     ul,li {
       padding:0;
@@ -26,33 +26,18 @@
   </style>
   <script>
     window.onload = function () {
-      //全局创建组件
-      //方式一
-      var c = Vue.extend({
-        template: '<h1>hello</h1>'
-      })
-      Vue.component('hello',c);
-      //方式二
-      Vue.component('my-hello',{
-        template: '<h1> my hello</h1>'
-      });
+
       new Vue({
         el:'#my',
         data:{
-          flag:'tab'
+          flag:'my-tab'
         },
         methods:{
 
 
         },
         components:{//局部组件
-          'my-table':{
-            template:'#mytable'
-          },
           'my-address':{
-            template:'<h1>my address</h1>'
-          },
-          'my-address2':{
             template:'#myaddress',
             data(){
              return {
@@ -82,17 +67,6 @@
     }
   </script>
 </head>
-<template id="mytable">
-  <div>
-    <tbody>
-    <tr>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    </tbody>
-  </div>
-</template>
 <template id="myaddress">
   <div>
   <h1>{{title}}</h1>
@@ -117,18 +91,9 @@
 </template>
 <body>
 <div id="my">
- <hello></hello>
-  <my-hello></my-hello>
-  <my-address></my-address>
-  <my-address2></my-address2>
-  <my-tab></my-tab>
-  <table border="1">
-    <tbody is="my-table"></tbody>
-  </table>
-<button @click="flag='tab'">tab</button>
-  <button @click="flag='address'">address</button>
-  <my-tab v-if="flag=='tab'"></my-tab>
-  <my-address2 v-if="flag=='address'"></my-address2>
+<button @click="flag='my-tab'">tab</button>
+  <button @click="flag='my-address'">address</button>
+  <component :is="flag"></component>
 </div>
 </body>
 </html>
