@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件传参</title>
+  <script src="js/vue.js"></script>
+  <script>
+    //方法一：A到父，父到B   以父亲为中间桥梁
+    window.onload = function () {
+      new Vue({
+        el:'#my',
+        data:{
+         pname:'prante',
+
+        },
+        methods:{
+          getA:function (title) {
+            this.pname = title;
+          }
+
+        },
+        components:{//局部组件
+          'my-a':{
+            template:'#a',
+            data(){
+             return {
+               title: 'aaa'
+             }
+            },
+            methods:{
+              send:function () {
+                this.$emit('data-a',this.title)
+              }
+            }
+          },
+          'my-b':{
+            template:'#b',
+            props:['geta'],
+            },
+
+          }
+
+      })
+    }
+  </script>
+</head>
+
+<template id="a">
+  <div>
+  <h1>a组件：{{title}}</h1>
+    <button @click="send()">子到父</button>
+  </div>
+</template>
+<template id="b">
+  <div>
+<h1>b组件：bbbb</h1>
+    <h1>拿到a组件的值：{{geta}}</h1>
+  </div>
+</template>
+<body>
+<div id="my">
+  {{pname}}
+  <my-a @data-a="getA"></my-a>
+  <my-b :geta="pname"></my-b>
+</div>
+</body>
+</html>

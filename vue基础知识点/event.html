@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event对象-事件冒泡and取消默认事件</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+      new Vue({
+        el:'#my',
+        data:{},
+        methods:{
+          d1:function () {
+            console.log("d1");
+          },
+          d2:function () {
+            console.log("d2");
+          },
+          d3:function (e) {
+            console.log("d3");
+            e.stopPropagation();// 阻止事件冒泡 普通写法
+          },
+          d4:function (e) {
+            console.log("d4");
+            e.preventDefault();//取消默认事件  普通写法
+          },
+          d5:function (e) {
+            console.log("d5");
+          //e.preventDefault();//取消默认事件
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+<div id="my">
+  <div class="D1" @click="d1()">
+    d1
+    <div class="D2" @click="d2()">
+      d2
+      <div class="D3" @click="d3($event)">d3
+        <div class="D3" @click.stop="d4($event)">d4</div><!--// 阻止事件冒泡 vue的写法-->
+        <a href="http://www.baidu.com" @click="d5($event)">click</a>
+        <a href="http://www.baidu.com" @click.prevent.stop="d5($event)">click</a><!--//取消默认事件-->
+      </div>
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

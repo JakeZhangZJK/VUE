@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VUE实现全选反选</title>
+  <link  rel="stylesheet" type="text/css"href="css/myDemo.css" >
+  <script src="js/vue.js"></script>
+  <script src="js/myDemo.js"></script>
+</head>
+<body>
+<div id="my">
+  <div>
+    <input type="checkbox" v-model="checkAll.check" @change="checkAllChange()"/>
+    <label>{{checkAll.name }} {{checkAll.check}}</label>
+    <ul>
+      <li v-for="v in lists">
+        <input type="checkbox" v-model="v.check" @change="curChange()"/>
+        <label>{{v.name}}</label> <label style="color: #00FF00">{{v.check}}</label>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
+</body>
+</html>

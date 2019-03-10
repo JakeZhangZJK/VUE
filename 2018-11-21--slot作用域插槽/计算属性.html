@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+  <script src="js/vue.js"></script>
+
+  <script>
+    window.onload = function () {
+      // 一个店铺，15元一份， 2份  8折  配送费5元
+      new Vue({
+        el:'#my',// 挂载元素
+        data:{// 数据
+          info:{
+            name:'汉堡大王',
+            price:15,
+            count:1,
+          },
+          sale:0.8,
+          feright:5,
+          data:0
+        },
+        methods:{ //方法
+          tototalFreight:function () {//计算方法
+            this.data = this.info.price*this.info.count*this.sale+this.feright;
+          }
+        },
+        computed:{// 计算属性
+          total:function () {//es5
+            return this.info.price*this.info.count*this.sale+this.feright;
+          },
+          total2(){//es6
+            return this.info.price*this.info.count*this.sale+this.feright;
+
+          }
+        }
+
+      })
+    }
+  </script>
+</head>
+
+<body>
+<div id="my">
+<div>您购买了{{info.name}}共{{info.count}}份</div>
+  <h1>总价：{{total}}</h1>
+  <h6>总价：{{total2}}</h6>
+
+  <div>
+    套餐：<input type="text" v-model="info.name"/>
+    数量：<input type="text" v-model="info.count"/>
+    <h1>总价：{{total}}</h1>
+  </div>
+  <button @click="tototalFreight">结算</button>
+  <h1>总价：{{data}}</h1>
+
+</div>
+
+</body>
+</html>
+

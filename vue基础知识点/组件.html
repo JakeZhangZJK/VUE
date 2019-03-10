@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+  <script src="js/vue.js"></script>
+  <style>
+    ul,li {
+      padding:0;
+      margin:0;
+    }
+    .tab-tit li{
+      padding: 10px 15px;
+      text-align: center;
+      list-style:none;
+      cursor:pointer;
+      display: inline-block;
+    }
+    .tab-tit .active{
+      color: #09f;
+      border-bottom: 1px solid #09f;
+    }
+    .tab-con div{
+      margin:30px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      //全局创建组件
+      //方式一
+      var c = Vue.extend({
+        template: '<h1>hello</h1>'
+      })
+      Vue.component('hello',c);
+      //方式二
+      Vue.component('my-hello',{
+        template: '<h1> my hello</h1>'
+      });
+      new Vue({
+        el:'#my',
+        data:{
+          flag:'tab'
+        },
+        methods:{
+
+
+        },
+        components:{//局部组件
+          'my-table':{
+            template:'#mytable'
+          },
+          'my-address':{
+            template:'<h1>my address</h1>'
+          },
+          'my-address2':{
+            template:'#myaddress',
+            data(){
+             return {
+               title: '我的地址2',
+               arr: ['home', 'school', 'stop']
+             }
+            }
+          },
+          'my-tab':{
+            template:'#mytab',
+            data(){
+              return {
+                title:['在线咨询','产品介绍','活动动态','限时抢购'],
+                content:['在线咨询动态展示','产品介绍动态展示','活动动态动态展示','限时抢购动态展示'],
+                num:0,
+              }
+            },
+            methods:{
+              play:function(i){
+                this.num = i;
+              }
+
+            }
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<template id="mytable">
+  <div>
+    <tbody>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    </tbody>
+  </div>
+</template>
+<template id="myaddress">
+  <div>
+  <h1>{{title}}</h1>
+  <ul>
+    <li v-for="v in arr">{{v}}</li>
+  </ul>
+  </div>
+</template>
+<template id="mytab">
+  <div>
+    <!--数组动态写法-->
+    <ul class="tab-tit">
+      <li v-for=" (v,index) in title" :class="{'active':num==index}" @click="play(index)">{{v}}</li>
+    </ul>
+    <div class="tab-con">
+      <div v-for="(v,index) in content" v-show="num == index">
+        {{v}}
+      </div>
+
+    </div>
+  </div>
+</template>
+<body>
+<div id="my">
+ <hello></hello>
+  <my-hello></my-hello>
+  <my-address></my-address>
+  <my-address2></my-address2>
+  <my-tab></my-tab>
+  <table border="1">
+    <tbody is="my-table"></tbody>
+  </table>
+<button @click="flag='tab'">tab</button>
+  <button @click="flag='address'">address</button>
+  <my-tab v-if="flag=='tab'"></my-tab>
+  <my-address2 v-if="flag=='address'"></my-address2>
+</div>
+</body>
+</html>

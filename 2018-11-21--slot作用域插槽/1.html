@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slot作用域插槽</title>
+  <script src="js/vue.js"></script>
+
+  <script>
+    window.onload = function () {
+
+      new Vue({
+        el:'#my',
+        components:{//局部组件
+          'my-a':{
+            template:'#a',
+            data(){
+              return {
+                title:'A组件标题'
+              }
+            }
+          },
+        }
+      })
+    }
+  </script>
+</head>
+<template id="a">
+  <div>
+    <h1>aaa</h1>
+    <slot :data="title"></slot>
+  </div>
+
+</template>
+<body>
+<div id="my">
+ <my-a>
+   <!--作用域插槽 直接显示数据-->
+   <div slot-scope="abc">
+     {{abc.data}}
+   </div>
+
+ </my-a>
+
+</div>
+</body>
+</html>
+<script>
+  import KeepAlive from "_vue@2.5.17@vue/src/core/components/keep-alive";
+  export default {
+    components: {KeepAlive}
+  }
+</script>

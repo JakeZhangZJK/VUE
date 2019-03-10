@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非父子组件传参</title>
+  <script src="js/vue.js"></script>
+  <script>
+    //方法二
+    var Bus = new Vue();  //定义一个空的对象，用于监听和触发实例，相当于第三方
+    var A = {
+        template:'#a',
+        data(){
+          return {
+            title: 'a组件'
+          }
+        },
+        methods:{
+          send:function () {
+            Bus.$emit('data-a',this.title)
+          }
+        }
+      }
+    var B = {
+      template:'#b',
+      data(){
+        return {
+          title: 'b组件'
+        }
+      },
+      methods:{
+        send:function () {
+          Bus.$emit('data-b',this.title);
+        }
+      }
+    }
+    var C = {
+      template:'#c',
+      data(){ //组件内部传参
+        return {
+          titleA: '',
+          titleB:''
+        }
+      },
+      mounted(){ //生命周期
+        Bus.$on('data-a',title => {
+          this.titleA = title;
+        }),
+          Bus.$on('data-b',title => {
+            this.titleB = title;
+          })
+      }
+    }
+    window.onload = function () {
+      new Vue({
+        el:'#my', // 挂载元素
+        data:{ // 数据
+         pname:'prante',
+
+        },
+        methods:{// 方法
+          getA:function (title) {
+            this.pname = title;
+          }
+
+        },
+        components:{//局部组件
+          'my-a':A,
+          'my-b':B,
+          'my-c':C,
+
+
+        }
+
+      })
+    }
+  </script>
+</head>
+
+<template id="a">
+  <div>
+  <h1>a组件：{{title}}</h1>
+    <button @click="send()">发送到C</button>
+  </div>
+</template>
+<template id="b">
+  <div>
+<h1>b组件：{{title}}</h1>
+    <button @click="send()">发送到C</button>
+  </div>
+</template>
+<template id="c">
+  <div>
+    <h1>c组件：{{titleA}}{{titleB}}</h1>
+  </div>
+</template>
+<body>
+<div id="my">
+  {{pname}}
+  <my-a></my-a>
+  <my-b></my-b>
+  <my-c></my-c>
+</div>
+</body>
+</html>

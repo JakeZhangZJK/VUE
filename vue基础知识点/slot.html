@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插槽</title>
+  <script src="js/vue.js"></script>
+
+  <script>
+    window.onload = function () {
+
+      new Vue({
+        el:'#my',
+        data:{
+          arr:['哈','哈哈','哈哈哈']
+        },
+        components:{//局部组件
+          'my-a':{
+            template:'#a',
+          },
+        }
+      })
+    }
+  </script>
+</head>
+<template id="a">
+  <div>
+    <h1>aaa</h1>
+    <slot></slot>  <!--slot（插槽） 内容分发 将父组件的内容放到子组件指定的位置-->
+    <slot name="n1"></slot>
+    <slot name="n2"></slot>
+  </div>
+
+</template>
+<body>
+<div id="my">
+ <my-a>
+   <!--匿名插槽1-->
+   <ul>
+     <li>1</li>
+     <li>2</li>
+   </ul>
+   <!--匿名插槽2-->
+   <ul slot>
+     <li>1</li>
+     <li>2</li>
+   </ul>
+   <!--具名插槽-->
+   <div slot="n1">
+     <h2>具名插槽</h2>
+   </div>
+   <div slot="n2">
+     <h2>具名插槽2</h2>
+     <ul>
+       <li v-for="v in arr">{{v}}</li>
+     </ul>
+   </div>
+ </my-a>
+
+</div>
+</body>
+</html>
+<script>
+  import KeepAlive from "_vue@2.5.17@vue/src/core/components/keep-alive";
+  export default {
+    components: {KeepAlive}
+  }
+</script>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+	<script src="node_modules/vue/dist/vue.js"></script>
+	<script>
+		window.onload=function(){
+		  new Vue({
+        el:'#my',// 挂载元素
+        data:{ //数据
+          msg:'hello  world!',
+          age:22,
+          flag:true,
+          arr:[1,2,3],
+          obj:{name:'zjk',id:1},
+          lists:[{name:'a',id:1},
+            {name:'b',id:2},
+            {name:'c',id:3},
+            {name:'d',id:4}
+          ],
+          url:'https://www.baidu.com/img/baidu_jgylogo3.gif',
+          title:"百度",
+          d1:'d1',
+          d2:'d2',
+          d3:{background:'blue'},
+          d4:{background:'red'}
+
+        },
+        methods:{ // 方法
+          play:function () {
+            this.age = 40;
+
+          },
+          play2:function (num) {
+            this.age = num;
+
+          }
+        }
+
+      })
+
+		}
+	</script>
+	<style>
+.d1{
+  color: #ff6600;
+}
+    .d2{
+      border: 1px solid #333333;
+      margin: 10px;
+    }
+	</style>
+</head>
+<body>
+	<div id="my">
+<!--v-show = "判断条件" 显示或隐藏   占位-->
+    <div v-show="flag">abc...</div>
+    <!--v-if = "判断条件"  显示或隐藏   不占位-->
+    <div v-if="flag">abc...</div>
+    <h1>{{msg}}</h1>
+
+    <!--多条件判断-->
+    <div v-if="age==30">已经30岁咯</div>
+    <div v-else-if="age==20">已经20岁咯</div>
+    <h1 v-else>{{age}}</h1>
+
+    <!--事件-->
+    <h1>{{age}}</h1>
+    <button v-on:click="age = 30">click1</button>
+    <button @click="play">click2</button>
+    <button @click="play2(20)">click3</button>
+    <button @mousemove="play2(20)" @mouseout="play2(100)">mouse</button>
+    <!--键盘事件  keydown  keyup   keyCode enter  13  A65 b66-->
+    <!--按钮别名  .enter .tab  .a  .b  .esc  .up  .right .sapce delete-->
+    <button @keydown.enter="play2(999)">keydonw</button><!--按下enter键，年龄输出为999-->
+    <button @keydown.ctrl.b="play2(888)">keydonw2</button><!--组合键 ctrl和b 年龄输出为888-->
+
+    <!--指令1  v-bind:动态属性名称='变量'    缩写 :属性名称='变量'-->
+    <img v-bind:src="url" v-bind:title="title">
+   <!-- 简写-->
+    <img :src="url" :title="title">
+    <!--条件判断-->
+    <img :src="flag?url:msg" :title="title">
+    <!--单个引用-->
+    <div :style="{color:'#f60',fontSize:'20px',marginTop:'20px'}">橙色</div>
+    <div :style="'d3'">橙色</div>
+    <div :class="'d1'">橙色</div>
+    <div :class="d1">橙色</div>
+    <div :class="'d2'">橙色</div>
+    <!--多个引用-->
+    <div :class="[d1,d2]">橙色</div>
+    <div :style="[d2,d4]">橙色</div>
+
+    <!--条件-->
+    <div :class="{'d2':flag}">橙色</div><!--'d2':样式  flag:判断条件-->
+    <!--三目-->
+    <div :class="flag?d1:d2">橙色</div>
+
+
+    <!--v-for-->
+    <!--for  of  es6  遍历对象：数组，  字符串，  set， map；不能遍历obj
+        for  in   遍历对象：都可以
+    -->
+    <!--数组-->
+    <ul>
+      <li v-for="(v,i) in arr">{{v}}---{{i}}</li>
+    </ul>
+    <!--对象-->
+    <ul>
+      <li v-for="(v,k) in obj">{{v}}---{{k}}</li>
+    </ul>
+    <!--数组对象-->
+    <ul>
+      <li v-for="(v,k) in lists">{{v}}---{{k}}</li>
+    </ul>
+
+    <ul>
+      <li v-for="(v,k) in lists">{{v.name}}---{{k}}</li>
+    </ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件传参</title>
+  <script src="js/vue.js"></script>
+  <style>
+    ul,li {
+      padding:0;
+      margin:0;
+    }
+    .tab-tit li{
+      padding: 10px 15px;
+      text-align: center;
+      list-style:none;
+      cursor:pointer;
+      display: inline-block;
+    }
+    .tab-tit .active{
+      color: #09f;
+      border-bottom: 1px solid #09f;
+    }
+    .tab-con div{
+      margin:30px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      new Vue({
+        el:'#my',
+        data:{
+         pname:'prante',
+          page:50,
+          obj:{name:'爸爸',age:50},
+          title1:['在线咨询1','产品介绍1','活动动态1','限时抢购1'],
+          content1:['在线咨询动态展示1','产品介绍动态展示1','活动动态动态展示1','限时抢购动态展示1'],
+          title2:['在线咨询2','产品介绍2','活动动态2','限时抢购2'],
+          content2:['在线咨询动态展示2','产品介绍动态展示2','活动动态动态展示2','限时抢购动态展示2'],
+
+        },
+        methods:{
+          get:function (title) {
+            this.pname = title;
+          }
+
+        },
+        components:{//局部组件
+          'my-address2':{
+            template:'#myaddress2',
+            data(){
+             return {
+               title: '子的地址2',
+               arr: ['home', 'school', 'stop']
+             }
+            },
+            methods:{
+              send:function () {
+                this.$emit('send',this.title)
+              }
+            },
+            props:['pname','page','obj']
+          },
+          'my-tab':{
+            template:'#mytab',
+            data(){
+              return {
+              /*  title:['在线咨询','产品介绍','活动动态','限时抢购'],
+                content:['在线咨询动态展示','产品介绍动态展示','活动动态动态展示','限时抢购动态展示'],*/
+                // num:0,
+              }
+
+            },
+            props:['title','content','num'],
+            methods:{
+              play:function(i){
+                this.num = i;
+              }
+
+            },
+
+          }
+        }
+      })
+    }
+  </script>
+</head>
+
+<template id="myaddress2">
+  <div>
+  <h1>{{title}}</h1>
+  <ul>
+    <li v-for="v in arr">{{v}}</li>
+  </ul>
+    <p>{{pname}}{{page}}{{obj.name}}</p>
+    <button @click="send()">子到父</button>
+  </div>
+</template>
+<template id="mytab">
+  <div>
+    <ul class="tab-tit">
+      <li v-for=" (v,index) in title" :class="{'active':num==index}" @click="play(index)">{{v}}</li>
+    </ul>
+    <div class="tab-con">
+      <div v-for="(v,index) in content" v-show="num == index">
+        {{v}}
+      </div>
+
+    </div>
+  </div>
+</template>
+<body>
+<div id="my">
+  {{pname}}
+  <my-address2 :pname="pname" :page="page" :obj="obj " v-on:send="get"></my-address2>
+  <my-tab :title="title1" :content="content1" :num="0"></my-tab>
+  <my-tab :title="title2" :content="content2" :num="1"></my-tab>
+</div>
+</body>
+</html>

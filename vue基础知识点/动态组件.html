@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+  <script src="js/vue.js"></script>
+  <style>
+    ul,li {
+      padding:0;
+      margin:0;
+    }
+    .tab-tit li{
+      padding: 10px 15px;
+      text-align: center;
+      list-style:none;
+      cursor:pointer;
+      display: inline-block;
+    }
+    .tab-tit .active{
+      color: #09f;
+      border-bottom: 1px solid #09f;
+    }
+    .tab-con div{
+      margin:30px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+
+      new Vue({
+        el:'#my',
+        data:{
+          flag:'my-tab'
+        },
+        methods:{
+
+
+        },
+        components:{//局部组件
+          'my-address':{
+            template:'#myaddress',
+            data(){
+             return {
+               title: '我的地址2',
+               arr: ['home', 'school', 'stop']
+             }
+            }
+          },
+          'my-tab':{
+            template:'#mytab',
+            data(){
+              return {
+                title:['在线咨询','产品介绍','活动动态','限时抢购'],
+                content:['在线咨询动态展示','产品介绍动态展示','活动动态动态展示','限时抢购动态展示'],
+                num:0,
+              }
+            },
+            methods:{
+              play:function(i){
+                this.num = i;
+              }
+
+            }
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<template id="myaddress">
+  <div>
+  <h1>{{title}}</h1>
+  <ul>
+    <li v-for="v in arr">{{v}}</li>
+  </ul>
+  </div>
+</template>
+<template id="mytab">
+  <div>
+    <!--数组动态写法-->
+    <ul class="tab-tit">
+      <li v-for=" (v,index) in title" :class="{'active':num==index}" @click="play(index)">{{v}}</li>
+    </ul>
+    <div class="tab-con">
+      <div v-for="(v,index) in content" v-show="num == index">
+        {{v}}
+      </div>
+
+    </div>
+  </div>
+</template>
+<body>
+<div id="my">
+<button @click="flag='my-tab'">tab</button>
+  <button @click="flag='my-address'">address</button>
+  <component :is="flag"></component>
+</div>
+</body>
+</html>

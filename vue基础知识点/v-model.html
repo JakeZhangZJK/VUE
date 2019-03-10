@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-model</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+      new Vue({
+        el:'#my',
+        data:{
+          t:'hello world',
+          t1:false,
+          t2:['1'],
+          t3:'0',
+          t4:'',
+          t5:'1',
+          lists:[{name:'老师',value:'0'},{name:'学生',value:'1'},{name:'家长',value:'2'}],
+
+        },
+        methods:{
+
+        },
+
+      })
+    }
+  </script>
+</head>
+<body>
+<div id="my">
+  <div>
+    <!--表单输入框-->
+    <input type="text" v-model="t" :disabled="t==123"/><!--当t的值为123时，输入框会被禁用-->
+    {{t}}
+  </div>
+  <div>
+    <!--复选框  v-model  当前状态  true false -->
+    <input type="checkbox" v-model="t1" />运动 {{t1}}
+  </div>
+
+  <div>
+    <!--复选框  组-->
+    <input type="checkbox" v-model="t2" value="a"/>逛街
+    <input type="checkbox" v-model="t2" value="1"/>打游戏
+    <input type="checkbox" v-model="t2" value="2"/>跳舞
+    <p>{{t2}}</p>
+  </div>
+
+  <div v-for="v in lists">
+    <!--复选框  组 动态-->
+    <input type="checkbox" v-model="t2" :value="v.value"/>{{v.name}}
+  </div>
+  <p>{{t2}}</p>
+  <div>
+    <!--单选框 -->
+    <input type="radio" name="test" v-model="t3" value="0"/>男
+    <input type="radio" name="test" v-model="t3" value="1"/>女
+    <p>{{t3}}</p>
+  </div>
+
+
+  <!--下拉框1-->
+  <div>
+
+    <select v-model="t4">
+      <option>苹果1</option>
+      <option>苹果2</option>
+      <option>苹果3</option>
+    </select>
+    <p>{{t4}}</p>
+  </div>
+
+  <!--下拉框2-->
+  <div>
+
+    <select v-model="t5">
+      <option value="0">苹果1</option>
+      <option value="1">苹果2</option>
+      <option value="2">苹果3</option>
+    </select>
+    <p>{{t5}}</p>
+  </div>
+
+
+  <!--下拉框3  动态-->
+  <div>
+
+    <select v-model="t5">
+      <option v-for="v in lists" :value="v.value">{{v.name  }}</option>
+    </select>
+    <p>{{t5}}</p>
+  </div>
+</div>
+</body>
+</html>

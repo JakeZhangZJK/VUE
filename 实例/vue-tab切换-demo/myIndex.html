@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tab-切换</title>
+  <link rel="stylesheet" href="css/myIndex.css">
+  <script src="js/vue.js"></script>
+  <script src="js/myIndex.js"></script>
+</head>
+<body>
+<div id="my">
+  <!--默认写法-->
+  <ul class="tab-tit">
+    <li :class="{'active':num==0}" @click="play(0)">标题一</li><!--// 通过方法传参-->
+    <li :class="{'active':num==1}" @click="num = 1">标题二</li>
+    <li :class="{'active':num==2}" @click="num = 2">标题三</li>
+    <li :class="{'active':num==3}" @click="num = 3">标题四</li>
+  </ul>
+  <div class="tab-con">
+    <div v-show="num == 0">
+      内容一
+    </div>
+    <div v-show="num == 1">
+      内容二
+    </div>
+    <div v-show="num == 2">
+      内容三
+    </div>
+    <div v-show="num == 3">
+      内容四
+    </div>
+  </div>
+
+
+  <!--数组动态写法-->
+  <ul class="tab-tit">
+    <li v-for=" (v,index) in title" :class="{'active':num==index}" @click="play(index)">{{v}}</li>
+  </ul>
+  <div class="tab-con">
+    <div v-for="(v,index) in content" v-show="num == index">
+      {{v}}
+    </div>
+
+  </div>
+
+
+  <!--数组对象动态写法-->
+  <ul class="tab-tit">
+    <li v-for="(v,index) in lists" :class="{'active':num2==index}" @click="num2 = index">{{v.title}}</li>
+  </ul>
+  <div class="tab-con">
+    <div v-for="(v,index) in lists" v-show="num2 == index">
+      {{v.content}}
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+
+      // 使用位置  {{值| 过滤器名称}}   v-bind
+      // 定义  全局
+      Vue.filter('addZero',function (data) {
+        return data<10 ? '0'+data:data;
+      });
+      new Vue({
+        el:'#my',
+        data:{
+          msg:'hello world',
+          lists:[{title:"aa",type:'1'},
+            {title:"bb",type:'2'},
+            {title:"cc",type:'1'},
+            {title:"dd",type:'3'}
+          ],
+          curTime:1551794022,
+        },
+        methods:{
+
+        },
+        filters:{
+          roundNum:function (data,n) {
+            return data.toFixed(n);//保留小数位数
+          },
+          toShort:function (data,len) {//添加省略号
+            if (data ===""||data === undefined || data === null) return;
+            if (data.length >= len){
+              var str = data.substr(0,len);//截取下标0到len
+              return str +'...';
+
+            }else {
+              return data;
+            }
+          },
+          numFilter:function (data) {
+            switch(data){
+              case '1':
+                return '待发货';
+              case '2':
+                return '已发货';
+              case '3':
+                return '未发货';
+              default :
+                return '未发货';
+            }
+          },
+          datee:function (data) {
+           var d = new Date(data*1000);
+           return d.getFullYear()+"-"+(d.getMonth()+1)+'-'+d.getDate() + " " + d.getHours() + ':' + d.getMinutes();
+
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+<div id="my">
+  <!--全局过滤器-->
+ <div>{{3| addZero }}</div>
+  <div>{{39| addZero }}</div>
+  <div :id="1| addZero">999</div>
+  <!--局部过滤器  传参数-->
+  <div>{{3.145926| roundNum(2) }}</div>
+  <div>{{3.145926| roundNum(3) }}</div>
+  <!--添加省略号  12345.....-->
+  <input type="text" v-model="msg">
+  {{msg|toShort(8)}}
+  <!--类型转换-->
+  <ul><li v-for="v in lists">{{v.title}} {{v.type | numFilter}}</li></ul>
+  <!--时间搓-->
+  <p>{{curTime| datee}}</p>
+
+</div>
+</body>
+</html>

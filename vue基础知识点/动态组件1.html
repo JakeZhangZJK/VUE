@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件</title>
+  <script src="js/vue.js"></script>
+  <style>
+    ul,li {
+      padding:0;
+      margin:0;
+    }
+    .tab-tit li{
+      padding: 10px 15px;
+      text-align: center;
+      list-style:none;
+      cursor:pointer;
+      display: inline-block;
+    }
+    .tab-tit .active{
+      color: #09f;
+      border-bottom: 1px solid #09f;
+    }
+    .tab-con div{
+      margin:30px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+
+      new Vue({
+        el:'#my',
+        data:{
+          flag:'my-a'
+        },
+        methods:{
+
+
+        },
+        components:{//局部组件
+          'my-a':{
+            template:'<h1>a组件:{{a}}</h1>',
+            data(){
+             return {
+              a:Math.random()
+             }
+            }
+          },
+          'my-b':{
+            template:'<h1>b组件:{{b}}</h1>',
+            data(){
+              return {
+                b:Math.random()
+            }
+            }
+          },
+          'my-c':{
+            template:'<h1>c组件:{{c}}</h1>',
+            data(){
+              return {
+                c:Math.random()
+            }
+            }
+          }
+        }
+      })
+    }
+  </script>
+</head>
+
+<body>
+<div id="my">
+  <button @click="flag='my-a'">a</button>
+  <button @click="flag='my-b'">b</button>
+  <button @click="flag='my-c'">c</button>
+  <!--include：只有匹配的组件才会缓存，符合条件：字符串/正则
+      exclude：任何组件都不会缓存，符合条件：字符串/正则
+  -->
+  <!--只有组件my-a才会缓存--><!-- <keep-alive> 是一个抽象的组件-->
+  <keep-alive include="my-a">
+    <component :is="flag"></component>
+  </keep-alive>
+  <!--组件my-a，my-c才会缓存-->
+  <keep-alive include="my-a,my-c">
+    <component :is="flag"></component>
+  </keep-alive>
+  <!--组件my-b不会缓存，其他的都缓存-->
+  <keep-alive exclude="my-b">
+    <component :is="flag"></component>
+  </keep-alive>
+
+</div>
+</body>
+</html>
+<script>
+  import KeepAlive from "_vue@2.5.17@vue/src/core/components/keep-alive";
+  export default {
+    components: {KeepAlive}
+  }
+</script>

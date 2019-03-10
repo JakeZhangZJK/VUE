@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>软谋教育</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="font/iconfont.css">
+    <script src="js/vue.js"></script>
+    <script src="js/myIndex.js"></script>
+<body>
+<!--页面容器-->
+  <div class="index-content" id="my">
+    <div class="banner">
+        <img v-for="(img,index) in imgArray" :src="img" v-show="index==num"/>
+        <div class="banner-circle">
+            <ul>
+                <li v-for="(img,index) in imgArray"  :class="{'selected':index == num}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="index-category">
+        <div v-for="(v,k) in categorys" class="category"><i  class="iconfont" :class="v.icon"></i><label >{{v.title}}</label></div>
+
+  </div>
+</div>
+</body>
+</html>
