@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听</title>
+  <script src="js/vue.js"></script>
+
+  <script>
+    window.onload = function () {
+   var VM = new Vue({
+        el:'#my',// 挂载元素
+        data:{// 数据
+        name:'zjk',
+          age:23,
+          changValue:'',
+          obj:{
+            id:1,
+            name:'jake',
+          }
+        },
+        methods:{ //方法
+          tototalFreight:function () {//计算方法
+          },
+          change:function () {
+          }
+        },
+     watch:{
+          name: (newValue,oldValue) =>{
+            this.changValue = '我的名字' + newValue + '我的年龄' + this.age
+          },
+       age: (newValue,oldValue)=> {
+         this.changValue = '我的名字' + this.name + '我的年龄' + newValue
+       },
+       'obj.name'(newValue,oldValue){// 对象的监听
+         console.log('name',newValue,oldValue)
+      },
+       obj:{
+            handle:(newValue,oldValue)=>{ // 默认执行函数
+              console.log('name',newValue,oldValue)
+            },
+         deep:true  //深度监听  当deep为false时，handle函数不执行
+       }
+     }
+
+
+      })
+      //全局监听
+      /*VM.$watch('name',function (newValue,oldValue) {
+        console.log('name',newValue,oldValue)
+      })*/
+    }
+  </script>
+</head>
+
+<body>
+<div id="my">
+  <div>
+    <input type="text" v-model="name">姓名
+    <div> {{changValue}}</div>
+  </div>
+  <input type="text" v-model="age">年龄
+  <div> {{changValue}}</div>
+</div>
+</div>
+
+</body>
+</html>
+

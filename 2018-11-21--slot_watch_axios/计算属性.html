@@ -15,14 +15,24 @@
             name:'汉堡大王',
             price:15,
             count:1,
+
           },
           sale:0.8,
           feright:5,
-          data:0
+          data:0,
+          num:100
         },
         methods:{ //方法
           tototalFreight:function () {//计算方法
             this.data = this.info.price*this.info.count*this.sale+this.feright;
+          },
+         /* change:function () {
+            console.log(this.num2);
+            this.num2 = 50;  //不能直接修改,直接修改会报错
+          }*/
+          change:function () {
+            console.log(this.num2);
+            this.num += 1;
           }
         },
         computed:{// 计算属性
@@ -32,7 +42,18 @@
           total2(){//es6
             return this.info.price*this.info.count*this.sale+this.feright;
 
-          }
+          },
+         /* num2:function () {
+            return this.num
+          }*/
+         num2:{
+           get:function () {
+             return this.num
+           },
+           set:function (val) {
+             this.num = val;
+           }
+         }
         }
 
       })
@@ -43,8 +64,8 @@
 <body>
 <div id="my">
 <div>您购买了{{info.name}}共{{info.count}}份</div>
-  <h1>总价：{{total}}</h1>
-  <h6>总价：{{total2}}</h6>
+  <h1>总价（es5）：{{total}}</h1>
+  <h6>总价（es6）：{{total2}}</h6>
 
   <div>
     套餐：<input type="text" v-model="info.name"/>
@@ -54,6 +75,10 @@
   <button @click="tototalFreight">结算</button>
   <h1>总价：{{data}}</h1>
 
+
+  <h2>num:{{num}}</h2>
+  <h2>计算属性num2:{{num2}}</h2>
+  <button @click="change">改变计算属性的值</button>
 </div>
 
 </body>

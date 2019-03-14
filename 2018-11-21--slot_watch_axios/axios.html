@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios</title>
+  <script src="js/axios.js"></script>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+    new Vue({
+      el:'#my',
+      data: {
+        arr:[]
+      },
+      methods:{
+        send(){
+          axios({
+            method:'get',
+            url:'http://localhhost:3333/getlist'
+          }).then(res =>{
+            console.log(res);
+           /* if(res.data.code=='200'){
+              this.arr = res.data.result;
+            }*/
+          }).catch(function(error){
+            console.log(error)
+          })
+        }
+      }
+
+    })
+    }
+  </script>
+</head>
+<body>
+<div id="my">
+  <button @click="send">发送get请求</button>
+ <!-- <ul>
+    <li v-for="v in arr">{{v.name}}</li>
+  </ul>-->
+</div>
+</body>
+</html>
