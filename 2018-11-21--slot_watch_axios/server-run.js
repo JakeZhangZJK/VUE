@@ -34,17 +34,14 @@ var app = connect()
                 "code": "200",
                 "msg": "success",
                 "result": [{
-					"id":1,
                     "name": "张三三",
                     "content": "广告投放1111"
                 },
 				{
-					"id":2,
                     "name": "李四四",
                     "content": "广告投放22222"
                 },
 				{
-					"id":3,
                     "name": "王五五",
                     "content": "广告投放33333"
                 }]

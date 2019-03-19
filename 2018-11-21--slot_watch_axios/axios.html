@@ -16,12 +16,12 @@
         send(){
           axios({
             method:'get',
-            url:'http://localhhost:3333/getlist'
+            url:'http://localhost:3333/getlist'
           }).then(res =>{
             console.log(res);
-           /* if(res.data.code=='200'){
+            if(res.data.code=='200'){
               this.arr = res.data.result;
-            }*/
+            }
           }).catch(function(error){
             console.log(error)
           })
@@ -35,9 +35,9 @@
 <body>
 <div id="my">
   <button @click="send">发送get请求</button>
- <!-- <ul>
+  <ul>
     <li v-for="v in arr">{{v.name}}</li>
-  </ul>-->
+  </ul>
 </div>
 </body>
 </html>
