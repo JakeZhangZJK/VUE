@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子路由</title>
+  <script src="vue.js"></script>
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    .rou{
+      color: #00FF00;
+     font-size: 50px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+
+
+      /*    1.定义组件
+      *           主页面  新闻页*/
+      var Home = {
+        template:'#home'
+      };
+      var News = {
+        template:'#news'
+      };
+
+      var Info = {
+        template:'<h1>详情组件</h1>'
+      };
+      var Login = {
+        template:'<h1>login</h1>'
+      };
+      /*    2.配置路由
+      *           /home   主页面
+      *           /news    新闻页*/
+      var routes = [
+        {path:'/home',component:Home},
+        {
+          path:'/news',
+          component:News,
+          children:[
+            {path:'info',component:Info},
+            {path:'login',component:Login},
+          ],
+        },
+
+        {path:'/',redirect:'/home'}/*重定向  默认路径  避免加载时出现空白页面*/
+      ]
+      // 3.创建router实例  管理路由
+      var router = new VueRouter({
+        routes
+      })
+      new Vue({
+        el:'#my',
+        // 4.router实例注入到vue实例中
+        router,
+        data:{
+          id:100,
+          name:'zjk'
+
+        },
+        methods:{
+
+        }
+      })
+    }
+  </script>
+</head>
+<template id="home">
+  <div>
+    <h1>主页面组件</h1>
+  </div>
+</template>
+<template id="news">
+  <div>
+    <router-link  to="/news/info">详情</router-link>
+    <router-link to="/news/login">登录</router-link>
+    <div>
+    <!--router-view 路由出口  路由匹配的组件将渲染在这里-->
+    <router-view></router-view>
+    </div>
+  </div>
+</template>
+<body>
+<div id="my">
+
+  <!--router-link 组件的导航 相当于a链接 -->
+  <!--to 路径 -->
+  <router-link class="rou" to="/home">主页</router-link>
+  <router-link to="/news">新闻页</router-link>
+  <!--router-view 路由出口  路由匹配的组件将渲染在这里-->
+  <router-view></router-view>
+
+</div>
+</body>
+</html>

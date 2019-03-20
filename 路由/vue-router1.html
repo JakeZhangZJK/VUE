@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由</title>
+  <script src="vue.js"></script>
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    .rou{
+      color: #00FF00;
+     font-size: 50px;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      /*路由  把数据从一个地方传送到另一个地方的行为
+      * 步骤：
+      *     1.定义组件
+      *           主页面  新闻页
+      *     2.配置路由
+      *           /home   主页面
+      *           /news    新闻页
+      *     3.创建router实例  管理路由
+      *           var router = new VueRouter({
+      *           2.配置路由
+      *           })
+      *     4.router实例注入到vue实例中
+      *     */
+
+
+
+      /*    1.定义组件
+      *           主页面  新闻页*/
+      var Home = {
+        template:'#home'
+      };
+      var News = {
+        template:'<h1>新闻组件</h1>'
+      };
+      var Info = {
+        template:'<h1>传过来的值是：{{$route.params}}</h1>'
+      }
+      /*    2.配置路由
+      *           /home   主页面
+      *           /news    新闻页*/
+      var routes = [
+        {path:'/home',component:Home},
+        {path:'/news',component:News},
+        {path:'/info/:id/:name',component:Info},/*传参*/
+        {path:'/',redirect:'/home'}/*重定向  默认路径  避免加载时出现空白页面*/
+      ]
+      // 3.创建router实例  管理路由
+      var router = new VueRouter({
+        routes
+      })
+      new Vue({
+        el:'#my',
+        // 4.router实例注入到vue实例中
+        router,
+        data:{
+          id:100,
+          name:'zjk'
+
+        },
+        methods:{
+
+        }
+      })
+    }
+  </script>
+</head>
+<template id="home">
+  <div>
+    <h1>主页面组件</h1>
+  </div>
+</template>
+<body>
+<div id="my">
+  <!--router-view 路由出口  路由匹配的组件将渲染在这里-->
+  <router-view></router-view>
+  <!--router-link 组件的导航 相当于a链接 -->
+  <!--to 路径 -->
+  <router-link class="rou" to="/home">主页</router-link>
+  <router-link to="/news">新闻页</router-link>
+  <router-link :to="'/info/' + id + '/' + name">详情</router-link>
+
+</div>
+</body>
+</html>

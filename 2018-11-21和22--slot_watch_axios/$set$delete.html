@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>set&delete</title>
+  <script src="js/vue.js"></script>
+
+  <script>
+    window.onload = function () {
+
+      new Vue({
+        el:'#my',// 挂载元素
+        data:{// 数据
+          info:{
+            name:'汉堡大王',
+            price:15,
+            count:1,
+          },
+        },
+        methods:{ //方法
+            add(){
+            /*this.info.msg = 'hello'*/ // 直接给对象赋值操作时，虽然可能新增，但是不会触发视图更新
+            this.$set(this.info, 'msg','hello')
+          },
+          upd(){
+            this.info.msg = '套餐AB'
+          },
+          del(){
+              this.$delete(this.info, 'msg')
+          }
+        },
+
+
+      })
+    }
+  </script>
+  <style>
+    /*解决浏览器闪烁配置的CSS样式，否则不生效*/
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+<div id="my">
+  <!--v-cloak  解决浏览器闪烁-->
+<h1 v-cloak>{{info.msg}}</h1>
+  <button @click="add">add</button>
+  <button @click="upd">upd</button>
+  <button @click="del">del</button>
+  <h1 v-text="info.name"></h1>
+</div>
+
+</body>
+</html>
+

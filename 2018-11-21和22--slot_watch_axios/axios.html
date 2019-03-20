@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios</title>
+  <script src="js/axios.js"></script>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+    new Vue({
+      el:'#my',
+      data: {
+        arr:[],
+        info:{id:1,name:"abc"}
+      },
+      methods:{
+        send(){
+          axios({
+            method:'get',
+            url:'http://localhost:3333/getlist'
+          }).then(res =>{
+            console.log(res);
+            if(res.data.code=='200'){
+              this.arr = res.data.result;
+            }
+          }).catch(function(error){
+            console.log(error)
+          })
+        },
+        send2(){
+          axios.get('http://localhost:3333/getlist',{paramps:this.info}).then(res =>{
+            console.log(res);
+            if(res.data.code=='200'){
+              this.arr = res.data.result;
+            }
+          }).catch(function(error){
+            console.log(error)
+          })
+        },
+        send3(){
+          axios({
+            method:'post',
+            url:'http://localhost:3333/map/add1',
+            data:this.info
+          }).then(res =>{
+            console.log(res);
+            if(res.data.code=='200'){
+              this.send();
+            }
+          }).catch(function(error){
+            console.log(error)
+          })
+        },
+        send4(){
+          axios.post('http://localhost:3333/map/add1',this.info).then(res =>{
+            console.log(res);
+            if(res.data.code=='200'){
+              this.arr = res.data.result;
+            }
+          }).catch(function(error){
+            console.log(error)
+          })
+        },
+      }
+
+    })
+    }
+  </script>
+</head>
+<body>
+<div id="my">
+  <button @click="send2">发送get请求</button>
+  <input type="text" v-model="info.name">
+  <button @click="send3">发送post请求</button>
+  <button @click="send4">发送post请求2</button>
+  <ul>
+    <li v-for="v in arr">{{v.name}}</li>
+  </ul>
+</div>
+</body>
+</html>
