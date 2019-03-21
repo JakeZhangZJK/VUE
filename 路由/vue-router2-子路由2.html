@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>路由</title>
+    <title>子路由2</title>
   <script src="vue.js"></script>
   <script src="node_modules/vue-router/dist/vue-router.js"></script>
   <style>
@@ -10,27 +10,11 @@
       color: #00FF00;
      font-size: 50px;
     }
-    .active {
-      color: #00FF00;
-    }
   </style>
   <script>
     window.onload = function () {
-      /*路由  把数据从一个地方传送到另一个地方的行为
-      * 步骤：
-      *     1.定义组件
-      *           主页面  新闻页
-      *     2.配置路由
-      *           /home   主页面
-      *           /news    新闻页
-      *     3.创建router实例  管理路由
-      *           var router = new VueRouter({
-      *           2.配置路由
-      *           })
-      *     4.router实例注入到vue实例中
-      *     */
-
-
+//params  /home/:id   /home/100   $route.params.id
+      //query  /home?id=100  $route.query.id
 
       /*    1.定义组件
       *           主页面  新闻页*/
@@ -38,24 +22,40 @@
         template:'#home'
       };
       var News = {
-        template:'<h1>新闻组件</h1>'
+        template:'#news',
+        data(){
+          return {
+            name:'新闻子组件',
+            id:1000
+          }
+        }
       };
+
       var Info = {
-        template:'<h1>传过来的值是：{{$route.params}}</h1>'
-      }
+        template:'<h1>{{$route.query.name}}</h1>'
+      };
+      var Login = {
+        template:'<h1>{{$route.params}}{{$route.path}}</h1>'
+      };
       /*    2.配置路由
       *           /home   主页面
       *           /news    新闻页*/
       var routes = [
         {path:'/home',component:Home},
-        {path:'/news',component:News},
-        {path:'/info/:id/:name',component:Info},/*传参*/
+        {
+          path:'/news',
+          component:News,
+          children:[
+            {path:'info',component:Info},
+            {path:'login/:name/:id',component:Login},
+          ],
+        },
+
         {path:'/',redirect:'/home'}/*重定向  默认路径  避免加载时出现空白页面*/
       ]
       // 3.创建router实例  管理路由
       var router = new VueRouter({
-        routes,
-        linkActiveClass:"active"
+        routes
       })
       new Vue({
         el:'#my',
@@ -67,7 +67,9 @@
 
         },
         methods:{
-
+              fun(){
+                router.push({path:'/home'})
+              }
         }
       })
     }
@@ -78,16 +80,28 @@
     <h1>主页面组件</h1>
   </div>
 </template>
+<template id="news">
+  <div>
+    <router-link  to="/news/info?name=jake&id=100">详情</router-link>
+    <router-link :to="'/news/login/'+name+'/' + id">登录</router-link>
+    <div>
+    <!--router-view 路由出口  路由匹配的组件将渲染在这里-->
+    <router-view></router-view>
+    </div>
+  </div>
+</template>
 <body>
 <div id="my">
-  <!--router-view 路由出口  路由匹配的组件将渲染在这里-->
-  <router-view></router-view>
+
   <!--router-link 组件的导航 相当于a链接 -->
   <!--to 路径 -->
   <router-link class="rou" to="/home">主页</router-link>
   <router-link to="/news">新闻页</router-link>
-  <router-link :to="'/info/' + id + '/' + name">详情</router-link>
+  <!--router-view 路由出口  路由匹配的组件将渲染在这里-->
+  <router-view ></router-view>
 
+
+  <button @click="fun">跳转</button>
 </div>
 </body>
 </html>

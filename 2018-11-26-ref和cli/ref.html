@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ref</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+      new Vue({
+        el:'#my',
+        data:{
+
+        },
+        methods:{
+          fun(){
+            this.$refs.dom.focus();
+            this.$refs.dom.style.backgroundColor='#ff0';
+            this.$refs.dom.value = '123';
+          }
+        }
+      })
+    }
+  </script>
+</head>
+<body>
+<div id="my">
+  <input type="text" ref="dom"/>
+  <button @click="fun">点击</button>
+
+</div>
+</body>
+</html>
